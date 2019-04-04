@@ -1,6 +1,7 @@
 package com.ric.studio.zkdemo.zookeeper;
 
 import org.I0Itec.zkclient.IZkChildListener;
+import org.I0Itec.zkclient.IZkDataListener;
 import org.I0Itec.zkclient.ZkClient;
 import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.I0Itec.zkclient.exception.ZkNodeExistsException;
@@ -147,4 +148,37 @@ public class ZkClientKit implements ZookeeperClient{
         } catch (ZkNodeExistsException e) {
         }
     }
+
+    public void addChildDataListener(String path, IZkDataListener listener) {
+        try {
+            // 递归创建节点
+            client.subscribeDataChanges(path, listener);
+        } catch (ZkNodeExistsException e) {
+        }
+    }
+
+    public void removeChildDataListener(String path, IZkDataListener listener) {
+        try {
+            // 递归创建节点
+            client.unsubscribeDataChanges(path, listener);
+        } catch (ZkNodeExistsException e) {
+        }
+    }
+
+    public void addData(String path, String data) {
+        try {
+            client.writeData(path, data);
+        } catch (ZkNodeExistsException e) {
+        }
+
+    }
+
+    public String getData(String path) {
+        try {
+            return client.readData(path);
+        } catch (ZkNodeExistsException e) {
+        }
+        return null;
+    }
+
 }
