@@ -106,6 +106,13 @@ public class ZkCuratorKit implements ZookeeperClient{
         }
     }
 
+    private void addTargetDataListener(String path, CuratorWatcher listener) {
+        try {
+            client.getData().usingWatcher(listener).forPath(path);
+        } catch (Exception e) {
+        }
+    }
+
     private CuratorWatcher createTargetChildListener(String path, ChildListener listener) {
         return new CuratorWatcherImpl(listener);
     }
